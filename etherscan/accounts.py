@@ -87,6 +87,13 @@ class Account(Client):
                 print("page {} added".format(page_number[0]))
                 self.url_dict[self.PAGE] = str(int(page_number[0]) + 1)
 
+    def get_transactions(self):
+        """
+
+        :return:
+        """
+        pass
+
     def get_blocks_mined_page(self, blocktype='blocks', page=1, offset=10000) -> list:
         """
         Get a page of blocks mined by given address, returns list of dict with keys:
