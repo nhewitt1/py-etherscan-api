@@ -62,11 +62,18 @@ class Account(Client):
         req = self.connect()
         return req['result']
 
-    def get_all_transactions(self, offset=10000, sort='asc', internal=False) -> list:
+    def get_all_transactions(self, offset=10000, sort='asc', internal=False, startblock=None, endblock=None) -> list:
         if internal:
             self.url_dict[self.ACTION] = 'txlistinternal'
         else:
             self.url_dict[self.ACTION] = 'txlist'
+
+        if startblock is not None:
+            self.url_dict[self.START_BLOCK] = str(startblock)
+
+        if endblock is not None:
+            self.url_dict[self.END_BLOCK] = str(endblock)
+
         self.url_dict[self.PAGE] = str(1)
         self.url_dict[self.OFFSET] = str(offset)
         self.url_dict[self.SORT] = sort
@@ -86,13 +93,6 @@ class Account(Client):
                 page_number = re.findall(r'[1-9](?:\d{0,2})(?:,\d{3})*(?:\.\d*[1-9])?|0?\.\d*[1-9]|0', self.url_dict[self.PAGE])
                 print("page {} added".format(page_number[0]))
                 self.url_dict[self.PAGE] = str(int(page_number[0]) + 1)
-
-    def get_transactions(self):
-        """
-
-        :return:
-        """
-        pass
 
     def get_blocks_mined_page(self, blocktype='blocks', page=1, offset=10000) -> list:
         """
